@@ -42,18 +42,39 @@ def on_click(x, y, button, pressed):
 with mouse.Listener(on_click=on_click) as listener:
     listener.join()
 
-screenshot = pyautogui.screenshot(region=(x1, y1, x2 - x1, y2 - y1))
-screenshot.save(r"./test.png")
 
-image = Image.open("test.png")
-text = pytesseract.image_to_string(image)
-text = text.replace("\n", " ")
-text = text.replace("|", "")
-text = " ".join(text.split())
-print(text)
+def take_screenshot():
+    screenshot = pyautogui.screenshot(region=(x1, y1, x2 - x1, y2 - y1))
+    screenshot.save(r"./test.png")
 
-list_of_chars = list(text)
+
+take_screenshot()
+
+
+def convert_to_text():
+    init_image = Image.open("test.png").convert("L")
+    init_image.save("grey.png")
+    grey_image = Image.open("grey.png")
+    text = pytesseract.image_to_string(grey_image)
+    text = text.replace("\n", " ")
+    text = text.replace("|", "")
+    text = " ".join(text.split())
+    print(text)
+    return text
+
+
+def type():
+    list_of_chars = list(convert_to_text())
+    for char in list_of_chars:
+        if char == "?":
+            break
+        keyboard.Controller().press(char)
+        time.sleep(0.1)
+    else:
+        keyboard.Controller().press(keyboard.Key.space)
+        take_screenshot()
+        type()
+
+
 time.sleep(3)
-for char in list_of_chars:
-    keyboard.Controller().press(char)
-    time.sleep(0.1)
+type()
