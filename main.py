@@ -68,8 +68,9 @@ def type():
 
 
 root = tkinter.Tk()
-root.geometry("800x640")
+root.geometry("300x230")
 root.title("type4me")
+root.resizable(False, False)
 
 
 instructions_label = Label(root, text="To begin, select the\narea you want to record")
@@ -91,7 +92,7 @@ def change_state():
 
 
 def update_text():
-    recognized_label.config(text=convert_to_text())
+    recognized_label.config(text=convert_to_text()[0:50] + "...")
 
 
 separator = ttk.Separator(root, orient="horizontal")
@@ -103,7 +104,7 @@ text_label.pack(side=TOP, pady=(15, 0))
 
 
 def on_click(e):
-    messagebox.showinfo("Recognized text", convert_to_text())
+    messagebox.showinfo("Full text", convert_to_text())
 
 
 recognized_label = Message(root, text="", width=785, fg="blue")
