@@ -5,6 +5,7 @@ import pytesseract
 import time
 import tkinter
 from tkinter import *
+from tkinter import ttk, messagebox
 
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract"
 
@@ -67,11 +68,49 @@ def type():
 
 
 root = tkinter.Tk()
-root.geometry("150x150")
+root.geometry("800x640")
+root.title("type4me")
 
-select_button = Button(root, text="Select area", command=select_area)
-select_button.place(x=75, y=50, anchor=CENTER)
 
-start_button = Button(root, text="Start typing", command=type)
-start_button.place(x=75, y=100, anchor=CENTER)
+instructions_label = Label(root, text="To begin, select the\narea you want to record")
+instructions_label.pack(side=TOP, pady=(15, 5))
+
+state_label = Label(root, text="NOTHING SELECTED", fg="red")
+state_label.pack(side=TOP)
+
+select_button = Button(
+    root,
+    text="Select area",
+    command=lambda: [change_state(), select_area(), update_text()],
+)
+select_button.pack(side=TOP, pady=(5, 15))
+
+
+def change_state():
+    state_label.config(text="SUCCESSFULLY SELECTED", fg="green")
+
+
+def update_text():
+    recognized_label.config(text=convert_to_text())
+
+
+separator = ttk.Separator(root, orient="horizontal")
+separator.pack(fill="x")
+
+
+text_label = Label(root, text="Recognized text (click to view full text):")
+text_label.pack(side=TOP, pady=(15, 0))
+
+
+def on_click(e):
+    messagebox.showinfo("Recognized text", convert_to_text())
+
+
+recognized_label = Message(root, text="", width=785, fg="blue")
+recognized_label.pack(side=TOP)
+recognized_label.bind("<Any-Button>", on_click)
+
+type_button = Button(root, text="Start typig", command=type)
+type_button.pack(side=BOTTOM, pady=(0, 15))
+
 root.mainloop()
