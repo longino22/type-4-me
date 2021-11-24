@@ -69,26 +69,30 @@ def type():
 
 root = tkinter.Tk()
 root.geometry("300x230")
-root.title("type4me")
 root.resizable(False, False)
+root.configure(background="white")
+root.title("type4me")
 
 
-instructions_label = Label(root, text="To begin, select the\narea you want to record")
+instructions_label = Label(
+    root, text="To begin, select the\narea you want to record", bg="white"
+)
 instructions_label.pack(side=TOP, pady=(15, 5))
 
-state_label = Label(root, text="NOTHING SELECTED", fg="red")
+state_label = Label(root, text="NOTHING SELECTED", fg="red", bg="white")
 state_label.pack(side=TOP)
 
 select_button = Button(
     root,
     text="Select area",
     command=lambda: [change_state(), select_area(), update_text()],
+    bg="white",
 )
 select_button.pack(side=TOP, pady=(5, 15))
 
 
 def change_state():
-    state_label.config(text="SUCCESSFULLY SELECTED", fg="green")
+    state_label.config(text="SUCCESSFULLY SELECTED", fg="green", bg="white")
 
 
 def update_text():
@@ -99,7 +103,7 @@ separator = ttk.Separator(root, orient="horizontal")
 separator.pack(fill="x")
 
 
-text_label = Label(root, text="Recognized text (click to view full text):")
+text_label = Label(root, text="Recognized text (click to view full text):", bg="white")
 text_label.pack(side=TOP, pady=(15, 0))
 
 
@@ -107,11 +111,11 @@ def on_click(e):
     messagebox.showinfo("Full text", convert_to_text())
 
 
-recognized_label = Message(root, text="", width=785, fg="blue")
+recognized_label = Message(root, text="", width=785, fg="blue", bg="white")
 recognized_label.pack(side=TOP)
 recognized_label.bind("<Any-Button>", on_click)
 
-type_button = Button(root, text="Start typig", command=type)
+type_button = Button(root, text="Start typig", command=type, bg="white")
 type_button.pack(side=BOTTOM, pady=(0, 15))
 
 root.mainloop()
