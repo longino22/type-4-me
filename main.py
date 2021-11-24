@@ -11,16 +11,6 @@ pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesse
 x1, y1, x2, y2 = 0, 0, 0, 0
 
 
-def set_coordinates(has_run):
-    global x1, y1, x2, y2
-    if has_run is True:
-        x1, y1 = pyautogui.position()
-        print(f"First coordinates: {x1}, {y1}")
-    else:
-        x2, y2 = pyautogui.position()
-        print(f"Second coordinates: {x2}, {y2}")
-
-
 def select_area():
     def on_click(x, y, button, pressed):
         global second_click
@@ -38,6 +28,14 @@ def select_area():
         listener.join()
 
 
+def set_coordinates(has_run):
+    global x1, y1, x2, y2
+    if has_run is True:
+        x1, y1 = pyautogui.position()
+    else:
+        x2, y2 = pyautogui.position()
+
+
 def take_screenshot():
     screenshot = pyautogui.screenshot(region=(x1, y1, x2 - x1, y2 - y1))
     screenshot.save(r"./test.png")
@@ -51,8 +49,8 @@ def convert_to_text():
     text = text.replace("\n", " ")
     text = text.replace("|", "")
     text = " ".join(text.split())
-    print(text)
     return text
+
 
 def type():
     time.sleep(3)
