@@ -87,6 +87,7 @@ select_button = Button(
     text="Select area",
     command=lambda: [change_state(), select_area(), update_text()],
     bg="white",
+    cursor="hand2",
 )
 select_button.pack(side=TOP, pady=(5, 15))
 
@@ -96,7 +97,7 @@ def change_state():
 
 
 def update_text():
-    recognized_label.config(text=convert_to_text()[0:50] + "...")
+    recognized_label.config(text=convert_to_text()[0:50] + "...", cursor="hand2")
 
 
 separator = ttk.Separator(root, orient="horizontal")
@@ -111,11 +112,23 @@ def on_click(e):
     messagebox.showinfo("Full text", convert_to_text())
 
 
-recognized_label = Message(root, text="", width=785, fg="blue", bg="white")
+recognized_label = Message(
+    root,
+    text="",
+    width=785,
+    fg="blue",
+    bg="white",
+)
 recognized_label.pack(side=TOP)
 recognized_label.bind("<Any-Button>", on_click)
 
-type_button = Button(root, text="Start typig", command=type, bg="white")
+type_button = Button(
+    root,
+    text="Start typig",
+    command=type,
+    bg="white",
+    cursor="hand2",
+)
 type_button.pack(side=BOTTOM, pady=(0, 15))
 
 root.mainloop()
