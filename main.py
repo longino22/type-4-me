@@ -6,6 +6,7 @@ import time
 import tkinter
 from tkinter import *
 from tkinter import ttk, messagebox
+import math
 
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract"
 
@@ -53,22 +54,25 @@ def convert_to_text():
     return text
 
 
-def type():
+def type(wpm):
     time.sleep(3)
     list_of_chars = list(convert_to_text())
+    length = len(list_of_chars)
+    rounded_length = round(length) / 5
+    delay = rounded_length / wpm
     for char in list_of_chars:
         if char == "?":
             break
         keyboard.Controller().press(char)
-        time.sleep(0.1)
-    else:
-        keyboard.Controller().press(keyboard.Key.space)
-        take_screenshot()
-        type()
+        time.sleep(delay)
+    # else:
+    #     keyboard.Controller().press(keyboard.Key.space)
+    #     take_screenshot()
+    #     type()
 
 
 root = tkinter.Tk()
-root.geometry("300x230")
+root.geometry("500x250")
 root.resizable(False, False)
 root.configure(background="white")
 root.title("type4me")
@@ -93,7 +97,7 @@ select_button.pack(side=TOP, pady=(5, 15))
 
 
 def change_state():
-    state_label.config(text="SUCCESSFULLY SELECTED", fg="green", bg="white")
+    state_label.config(text="SUCCESSFULLY SELECTED", fg="green", bg="white", width=1000)
 
 
 def update_text():
@@ -115,20 +119,27 @@ def on_click(e):
 recognized_label = Message(
     root,
     text="",
-    width=785,
+    width=1000,
     fg="blue",
     bg="white",
 )
 recognized_label.pack(side=TOP)
 recognized_label.bind("<Any-Button>", on_click)
 
+wpm = Label(root, text="WPM (Words per minute)", bg="white")
+wpm.pack(side=LEFT, padx=15)
+
+wpm_speed = IntVar
+wpm_entry = Entry(root, bd=3, textvariable=wpm_speed)
+wpm_entry.pack(side=LEFT, padx=(0, 15))
+
 type_button = Button(
     root,
-    text="Start typig",
+    text="Start typing",
     command=type,
     bg="white",
     cursor="hand2",
 )
-type_button.pack(side=BOTTOM, pady=(0, 15))
+type_button.pack(side=RIGHT, padx=(0, 15))
 
 root.mainloop()
